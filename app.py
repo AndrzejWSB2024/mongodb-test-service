@@ -5,9 +5,7 @@ import uuid
 from datetime import datetime, timezone
 import csv
 import zipfile
-from flask import Flask
 
-app = Flask(__name__)
 report_data = []
 
 doc = {
@@ -87,15 +85,12 @@ def save_report_html(filename="raport.html"):
             htmlfile.write("</tr>")
         htmlfile.write("</table></body></html>")
 
+
 def zip_reports(zip_filename="raport_mongodb.zip"):
     with zipfile.ZipFile(zip_filename, 'w', zipfile.ZIP_DEFLATED) as zipf:
         zipf.write("raport.csv")
         zipf.write("raport.html")
     print(f"🗜️ Raporty spakowane do pliku: {zip_filename}")
-
-@app.route("/")
-def index():
-    return "MongoDB testy dostępne. Sprawdź logi w konsoli."
 
 if __name__ == "__main__":
     print("🔄 Start testu MongoDB...")
@@ -119,5 +114,4 @@ if __name__ == "__main__":
     zip_reports()
     print("📄 Raport zapisany jako: raport.csv oraz raport.html")
 
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+
